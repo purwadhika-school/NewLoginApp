@@ -4,6 +4,8 @@ import ButtonConnect from './src/components/ButtonConnect'
 import InputEmail from './src/components/InputEmail'
 import InputPassword from './src/components/InputPassword'
 import ButtonLogin from './src/components/ButtonLogin'
+import ForgotPassword from './src/components/ForgotPassword'
+import NewAccount from './src/components/NewAccount'
 
 // JS
 class App extends Component {
@@ -15,6 +17,19 @@ class App extends Component {
           <InputEmail />
           <InputPassword />
           <ButtonLogin />
+          
+          <View 
+            style={{ 
+              marginTop: 15,
+              justifyContent: 'space-evenly',
+              flexDirection: 'row',
+              alignItems: 'center',
+
+            }}>
+            <ForgotPassword />
+            <NewAccount />
+          </View>
+
         </View>
         <View style={{ flex: 0.5 }}>
           <ButtonConnect />
