@@ -7,8 +7,10 @@ import ButtonLogin from './src/components/ButtonLogin'
 import ForgotPassword from './src/components/ForgotPassword'
 import NewAccount from './src/components/NewAccount'
 import Logo from './src/components/Logo'
+import Home from './src/components/Home'
 import firebase from '@firebase/app'
 import '@firebase/auth'
+import { createStackNavigator } from 'react-navigation'
 
 
 // JS
@@ -38,10 +40,22 @@ class App extends Component {
       this.setState({ isLoading: true })
       firebase.auth().signInWithEmailAndPassword(emailUser, passwordUser)
         .then(response => {
-          this.setState({ isLoading: false })
+          console.log(response)
+          this.setState({ isLoading: false }, ()=> {
+            this.props.navigation.navigate('HomePage')
+          })
         })
         .catch(error => {
-          console.log(error.code, error.message)
+          firebase.auth().createUserWithEmailAndPassword(emailUser, passwordUser)
+            .then(res =>{
+              console.log(res)
+              this.setState({ isLoading: false }, ()=> {
+                this.props.navigation.navigate('HomePage')
+              })
+            })
+            .catch(err => {
+              console.log(err.code, err.message)
+            })
         })
     }
   }
@@ -84,4 +98,13 @@ class App extends Component {
   }
 }
 
-export default App
+const RootNavigation = createStackNavigator({
+  LoginPage: {
+    screen: App
+  },
+  HomePage: {
+    screen: Home
+  },
+})
+
+export default RootNavigation

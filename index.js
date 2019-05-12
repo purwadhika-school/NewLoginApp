@@ -9,8 +9,8 @@ import firebase from '@firebase/app'
 import '@firebase/auth'
 import { secretKey } from './secretKey'
 
-if (!firebase.app.length) {
+// if (!firebase.app.length) {
   firebase.initializeApp(secretKey)
-}
+// }
 
 AppRegistry.registerComponent(appName, () => App);
