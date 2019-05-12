@@ -1,9 +1,10 @@
 import React from 'react'
 import { View, Text, TextInput } from 'react-native'
 
-const InputEmail = () => {
+const InputEmail = (dataProps) => {
   return (
     <TextInput
+      onChangeText={ (email)=> dataProps.getEmail(email) }
       placeholder="Email"
       style={{ 
         backgroundColor: 'white',

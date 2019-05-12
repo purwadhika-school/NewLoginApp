@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { TouchableOpacity, Text, View, TextInput } from 'react-native'
+import { Alert, TouchableOpacity, Text, View, TextInput } from 'react-native'
 import ButtonConnect from './src/components/ButtonConnect'
 import InputEmail from './src/components/InputEmail'
 import InputPassword from './src/components/InputPassword'
@@ -7,6 +7,8 @@ import ButtonLogin from './src/components/ButtonLogin'
 import ForgotPassword from './src/components/ForgotPassword'
 import NewAccount from './src/components/NewAccount'
 import Logo from './src/components/Logo'
+import firebase from '@firebase/app'
+import '@firebase/auth'
 
 
 // JS
@@ -15,21 +17,47 @@ class App extends Component {
     super(props)
 
     this.state = {
-      emailUser: 'sadas'
+      emailUser: '',
+      passwordUser: '',
+      isLoading: false
+    }
+  }
+
+  getEmail = (email) => {
+    this.setState({ emailUser: email })
+  }
+
+  getPassword = (password) => this.setState({ passwordUser: password })
+
+  loginHandler = () => {
+    const { emailUser, passwordUser } = this.state
+
+    if (emailUser === '' || passwordUser === '') {
+      Alert.alert('Warning', 'Email dan Password tidak boleh kosong!')
+    } else {
+      this.setState({ isLoading: true })
+      firebase.auth().signInWithEmailAndPassword(emailUser, passwordUser)
+        .then(response => {
+          this.setState({ isLoading: false })
+        })
+        .catch(error => {
+          console.log(error.code, error.message)
+        })
     }
   }
 
   render(){
-    console.log(this.state.emailUser)
     return (
       <View style={{ backgroundColor: '#9ACCBE', flex: 1 }}>
         <View style={{ flex: 1.5, justifyContent: 'center', alignItems: 'center' }}>
           <Logo />
         </View>
         <View style={{ flex: 1 }}>
-          <InputEmail />
-          <InputPassword />
-          <ButtonLogin />
+          <InputEmail getEmail={this.getEmail} />
+          <InputPassword getPassword={this.getPassword} />
+          <ButtonLogin 
+            isLoading={this.state.isLoading}
+            loginHandler={this.loginHandler} />
           
           <View 
             style={{ 

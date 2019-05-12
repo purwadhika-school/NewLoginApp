@@ -7,7 +7,7 @@ const Logo = () => {
       style={{ 
         width: 300,
         height: 300
-
+        
       }}
       source={require('../../assets/images/company_logo.png')} />
   )
